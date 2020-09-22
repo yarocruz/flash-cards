@@ -39,9 +39,12 @@ function Form() {
                 </select>
                 <button type="submit">Submit</button>
             </form>
-            {cards.map(card => {
-                return <Card  key={card.question} question={card.question} answer={card.answer} />
-            })}
+
+            <div style={{ display: 'flex', flexWrap: "wrap"}}>
+                {cards.map(card => {
+                    return <Card  key={card.question} question={card.question} answer={card.answer} />
+                })}
+            </div>
 
             <button onClick={clearCards}>Clear all Cards</button>
         </div>

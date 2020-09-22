@@ -1,0 +1,19 @@
+.card {
+    margin: 25px;
+    max-width: 300px;
+    max-height: 300px;
+    width: 50ch;
+    height: 50ch;
+    cursor: pointer;
+    will-change: transform, opacity;
+}
+
+.back {
+    position: relative;
+    background-color: azure;
+}
+
+.front {
+    background-color: aqua;
+    position: absolute;
+}
