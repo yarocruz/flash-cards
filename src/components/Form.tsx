@@ -1,20 +1,16 @@
 import React, { useState } from "react";
+import useLocalStorage from "../hooks/useLocalStorage";
 import Card from "./Card";
 
 function Form() {
     const [question, setQuestion] = useState('')
     const [answer, setAnswer] = useState('')
 
-    const [cards, setCards] = useState([
-        {
-            question: 'What is the capital of Texas?',
-            answer: 'Austin'
-        }
-    ])
+    const [cards, setCards, clearCards] = useLocalStorage('cards')
 
     const handleSubmit = (event: any) => {
         event.preventDefault()
-        setCards([...cards, {question, answer }])
+        setCards([...cards, { question, answer }])
         setQuestion('')
         setAnswer('')
     }
@@ -46,6 +42,8 @@ function Form() {
             {cards.map(card => {
                 return <Card  key={card.question} question={card.question} answer={card.answer} />
             })}
+
+            <button onClick={clearCards}>Clear all Cards</button>
         </div>
     )
 }
