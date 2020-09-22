@@ -1,34 +1,39 @@
 import React, { useState } from "react";
+import Card from "./Card";
 
 function Form() {
     const [question, setQuestion] = useState('')
     const [answer, setAnswer] = useState('')
 
-    const handleQuestion = (event: any) => {
-        event.preventDefault()
-        setQuestion(event.target.value)
-    }
+    const [cards, setCards] = useState([
+        {
+            question: 'What is the capital of Texas?',
+            answer: 'Austin'
+        }
+    ])
 
-    const handleAnswer = (event: any) => {
+    const handleSubmit = (event: any) => {
         event.preventDefault()
-        setAnswer(event.target.value)
+        setCards([...cards, {question, answer }])
+        setQuestion('')
+        setAnswer('')
     }
 
     return (
         <div>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <label htmlFor="question">Question</label>
                 <input
+                    onChange={event => setQuestion(event.target.value)}
                     value={question}
-                    onChange={handleQuestion}
                     name="question"
                     type="text"
                     placeholder="Type a Question"
                 />
                 <label htmlFor="answer">Answer</label>
                 <input
+                    onChange={event => setAnswer(event.target.value)}
                     value={answer}
-                    onChange={handleAnswer}
                     name="Answer"
                     type="text"
                     placeholder="Type the Answer"
@@ -38,8 +43,9 @@ function Form() {
                 </select>
                 <button type="submit">Submit</button>
             </form>
-            <div>{question}</div>
-            <div>{answer}</div>
+            {cards.map(card => {
+                return <Card  key={card.question} question={card.question} answer={card.answer} />
+            })}
         </div>
     )
 }
