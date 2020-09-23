@@ -4,7 +4,8 @@ function useLocalStorage(key: string) {
     const [storedValue, setStoredValue] = useState([
         {
             question: 'What is the capital of Texas',
-            answer: 'Austin'
+            answer: 'Austin',
+            category: 'none',
         }
     ])
 
@@ -20,12 +21,12 @@ function useLocalStorage(key: string) {
         window.localStorage.clear()
     }
 
-    const setValue = (value: { question: string; answer: string; }[]) => {
+    const setValue = (value: { question: string; answer: string; category: string; }[]) => {
         setStoredValue(value)
         window.localStorage.setItem(key, JSON.stringify(value))
     }
 
-    return [storedValue, setValue, clearStorage] as const // the as const is need to be able to call the setter
+    return [storedValue, setValue, clearStorage] as const // the as const is needed to be able to call the setter
 }
 
 export default useLocalStorage
