@@ -2,6 +2,10 @@
     margin: 25px;
     max-width: 300px;
     max-height: 300px;
+    border-radius: 7px;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
     width: 50ch;
     height: 50ch;
     cursor: pointer;
@@ -9,11 +13,13 @@
 }
 
 .back {
+    align-items: center;
     position: relative;
     background-color: azure;
 }
 
 .front {
+    align-items: center;
     background-color: aqua;
     position: absolute;
 }
