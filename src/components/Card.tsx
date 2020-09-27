@@ -17,11 +17,11 @@ function Card({question, answer, deck}: Props) {
     })
     return(
         <div className='card-wrap' onClick={() => set(state => !state)}>
-            <animated.div className='card front' style={{ opacity: opacity.interpolate((o:any) => 1 - o), transform}}>
-                <h4>{question}</h4>
+            <animated.div className='card front border-4 border-blue-400' style={{ opacity: opacity.interpolate((o:any) => 1 - o), transform}}>
+                <h1 className='font-extrabold text-blue-600'>{question}</h1>
             </animated.div>
 
-            <animated.div className='card back' style={{ opacity, transform: transform.interpolate(t => `${t} rotateY(180deg)`)}}>
+            <animated.div className='card back border-4 border-blue-400' style={{ opacity, transform: transform.interpolate(t => `${t} rotateY(180deg)`)}}>
                 <h4>{answer}</h4>
             </animated.div>
         </div>

@@ -15,11 +15,9 @@
 .back {
     align-items: center;
     position: relative;
-    background-color: azure;
 }
 
 .front {
     align-items: center;
-    background-color: aqua;
     position: absolute;
 }
