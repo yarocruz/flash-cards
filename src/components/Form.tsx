@@ -83,7 +83,7 @@ function Form() {
                 })}
             </div>
 
-            <button onClick={clearCards}>Clear all Cards</button>
+            <button className='italic text-yellow-700 bg-blue-200 p-5' onClick={clearCards}>Clear all Cards</button>
         </div>
     )
 }
