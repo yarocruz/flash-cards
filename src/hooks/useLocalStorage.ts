@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"; // we're not using JSX
 function useLocalStorage(key: string) {
     const [storedValue, setStoredValue] = useState([
         {
-            question: 'What is the capital of Texas',
+            question: 'What is the capital of Texas?',
             answer: 'Austin',
             category: 'none',
         }

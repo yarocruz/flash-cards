@@ -14,7 +14,7 @@ function Form() {
 
     const handleSubmit = (event: any) => {
         event.preventDefault()
-        if (categoryRef.current) {
+        if (categoryRef.current && cards && answer) {
             setCards([...cards, { question, answer, category: categoryRef.current.value }])
         }
         setQuestion('')
@@ -38,44 +38,69 @@ function Form() {
     }, [])
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="question">Question</label>
-                <input
-                    onChange={event => setQuestion(event.target.value)}
-                    value={question}
-                    name="question"
-                    type="text"
-                    placeholder="Type a Question"
-                />
-                <label htmlFor="answer">Answer</label>
-                <input
-                    onChange={event => setAnswer(event.target.value)}
-                    value={answer}
-                    name="answer"
-                    type="text"
-                    placeholder="Type the Answer"
-                />
-                <select name="topic" id="category" ref={categoryRef} >
-                    {category.map(cat => {
-                        return (
-                            <option  key={cat} value={cat}>{cat}</option>
-                        )
-                    })}
-                </select>
+        <div className='m-3'>
+            <div className='flex flex-col max-w-4xl'>
+                <form className='my-4 border-2 p-3' onSubmit={handleSubmit}>
+                    <label htmlFor="question">Question</label>
+                    <div className="mt-1 relative rounded-md">
+                        <input
+                            className="form-input my-2 block w-full sm:text-sm sm:leading-5 p-2 border-2 bg-transparent"
+                            onChange={event => setQuestion(event.target.value)}
+                            value={question}
+                            name="question"
+                            type="text"
+                            placeholder="Type a Question"
+                        />
+                    </div>
+                    <label htmlFor="answer">Answer</label>
+                    <div className="mt-1 relative rounded-md">
+                        <input
+                            className="form-input my-2 block w-full sm:text-sm sm:leading-5 p-2 border-2 bg-transparent"
+                            onChange={event => setAnswer(event.target.value)}
+                            value={answer}
+                            name="answer"
+                            type="text"
+                            placeholder="Type the Answer"
+                        />
+                    </div>
 
-                <button type="submit">Submit</button>
-            </form>
-            <form onSubmit={addCategory}>
-                <label htmlFor="category">Create a New Category / Deck</label>
-                <input
-                    ref={inputRef}
-                    name="category"
-                    type="text"
-                    placeholder="optional"
-                />
-                <button type="submit">Submit</button>
-            </form>
+                    <label htmlFor="category">Select Category</label>
+                    <div className="mt-1 relative rounded-md">
+                        <select
+                            className="form-select h-full p-2 border-2 bg-transparent text-gray-500 sm:text-sm sm:leading-5"
+                            aria-label="Category"
+                            name="topic"
+                            id="category"
+                            ref={categoryRef}
+                        >
+                            {category.map(cat => {
+                                return (
+                                    <option  key={cat} value={cat}>{cat}</option>
+                                )
+                            })}
+                        </select>
+                    </div>
+
+                    <button className='bg-teal-300 px-5 py-2 rounded my-2' type="submit">Submit</button>
+
+                </form>
+
+                <form className='my-4 border-2 p-3' onSubmit={addCategory}>
+                    <label htmlFor="category">Create a New Category / Deck</label>
+                    <div className="mt-1 relative rounded-md">
+                        <input
+                            className="form-input block w-full p-2 border-2 bg-transparent text-gray-500 sm:text-sm sm:leading-5"
+                            id="category"
+                            ref={inputRef}
+                            name="category"
+                            type="text"
+                            placeholder="type something like math, or programming"
+                        />
+                        <button className='bg-teal-300 px-5 py-2 my-2 rounded' type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+
 
             <div style={{ display: 'flex', flexWrap: "wrap"}}>
                 {cards.map(card => {
@@ -84,6 +109,7 @@ function Form() {
             </div>
 
             <button className='italic text-yellow-700 bg-blue-200 p-5' onClick={clearCards}>Clear all Cards</button>
+
         </div>
     )
 }

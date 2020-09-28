@@ -16,12 +16,12 @@ function Card({question, answer, deck}: Props) {
         config: { mass: 5, tension: 500, friction: 80}
     })
     return(
-        <div className='card-wrap' onClick={() => set(state => !state)}>
+        <div className='card-wrap mr-12 my-4' onClick={() => set(state => !state)}>
             <animated.div className='card front border-4 border-blue-400' style={{ opacity: opacity.interpolate((o:any) => 1 - o), transform}}>
                 <h1 className='font-extrabold text-blue-600'>{question}</h1>
             </animated.div>
 
-            <animated.div className='card back border-4 border-blue-400' style={{ opacity, transform: transform.interpolate(t => `${t} rotateY(180deg)`)}}>
+            <animated.div className='card back border-4 border-blue-400 bg-gray-200' style={{ opacity, transform: transform.interpolate(t => `${t} rotateY(180deg)`)}}>
                 <h4>{answer}</h4>
             </animated.div>
         </div>
