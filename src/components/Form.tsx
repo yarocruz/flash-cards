@@ -7,12 +7,15 @@ function Form() {
     const [answer, setAnswer] = useState('')
     const [category, setCategory] = useState(['none'])
 
+    const [isFiltered, setIsFiltered] = useState(false)
+    const [selected, setSelected] = useState('')
+
     const [cards, setCards, clearCards] = useLocalStorage('cards')
 
     const inputRef = useRef<HTMLInputElement>(null)
     const categoryRef = useRef<HTMLSelectElement>(null)
 
-    const handleSubmit = (event: any) => {
+    const addCard = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         if (categoryRef.current && cards && answer) {
             setCards([...cards, { question, answer, category: categoryRef.current.value }])
@@ -21,13 +24,23 @@ function Form() {
         setAnswer('')
     }
 
-    const addCategory = (e: any) => {
+    const addCategory = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (inputRef.current) {
             setCategory([...category, inputRef.current.value])
             window.localStorage.setItem('category', JSON.stringify([...category, inputRef.current.value]))
             inputRef.current.value = ''
         }
+    }
+
+    const sortByCategory = (filter: string) => {
+       if (filter !== 'none') {
+           setIsFiltered(true)
+           setSelected(filter)
+       } else {
+           setIsFiltered(false)
+       }
+
     }
 
     useEffect(() => {
@@ -40,7 +53,7 @@ function Form() {
     return (
         <div className='m-3'>
             <div className='flex flex-col max-w-4xl'>
-                <form className='my-4 border-2 p-3' onSubmit={handleSubmit}>
+                <form className='my-4 border-2 p-3' onSubmit={addCard}>
                     <label htmlFor="question">Question</label>
                     <div className="mt-1 relative rounded-md">
                         <input
@@ -101,11 +114,16 @@ function Form() {
                 </form>
             </div>
 
+            {category.map(cat => {
+                return (
+                    <button onClick={() => sortByCategory(cat)} key={cat} className='bg-blue-400 px-5 py-2 my-2 mr-5 rounded'>{cat}</button>
+                )
+            })}
 
             <div style={{ display: 'flex', flexWrap: "wrap"}}>
-                {cards.map(card => {
-                    return <Card  key={card.question} question={card.question} answer={card.answer} />
-                })}
+                {!isFiltered ? cards.map(card => {
+                    return <Card key={card.question} question={card.question} answer={card.answer} />
+                }) : cards.filter(card => card.category === selected).map(card => <Card key={card.question} question={card.question} answer={card.answer} />)}
             </div>
 
             <button className='italic text-yellow-700 bg-blue-200 p-5' onClick={clearCards}>Clear all Cards</button>
