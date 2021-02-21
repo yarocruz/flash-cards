@@ -3,9 +3,11 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import Card from "./Card";
 
 function Form() {
-    const [question, setQuestion] = useState('')
-    const [answer, setAnswer] = useState('')
-    const [category, setCategory] = useState(['none'])
+    const [cardData, setCardData] = useState({
+        question: '',
+        answer: '',
+        category: ['none']
+    })
 
     const [isFiltered, setIsFiltered] = useState(false)
     const [selected, setSelected] = useState('')
@@ -17,18 +19,24 @@ function Form() {
 
     const addCard = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        if (categoryRef.current && cards && answer) {
-            setCards([...cards, { question, answer, category: categoryRef.current.value }])
+        if (categoryRef.current && cards && cardData.answer) {
+            setCards([...cards, { question: cardData.question, answer: cardData.answer, category: categoryRef.current.value }])
         }
-        setQuestion('')
-        setAnswer('')
+        setCardData( {
+            answer: '',
+            question: '',
+            ...cardData,
+        })
     }
 
-    const addCategory = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
+    const addCategory = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
         if (inputRef.current) {
-            setCategory([...category, inputRef.current.value])
-            window.localStorage.setItem('category', JSON.stringify([...category, inputRef.current.value]))
+            setCardData({
+                ...cardData,
+                category: [...cardData.category, inputRef.current.value]
+            })
+            window.localStorage.setItem('category', JSON.stringify([...cardData.category, inputRef.current.value]))
             inputRef.current.value = ''
         }
     }
@@ -40,13 +48,16 @@ function Form() {
        } else {
            setIsFiltered(false)
        }
-
     }
 
     useEffect(() => {
         const item = window.localStorage.getItem('category')
         if (item !== null) {
-            setCategory(JSON.parse(item))
+            // setCategory(JSON.parse(item))
+            setCardData({
+                ...cardData,
+                category: [...JSON.parse(item)]
+            })
         }
     }, [])
 
@@ -58,8 +69,8 @@ function Form() {
                     <div className="mt-1 relative rounded-md">
                         <input
                             className="form-input my-2 block w-full sm:text-sm sm:leading-5 p-2 border-2 bg-transparent"
-                            onChange={event => setQuestion(event.target.value)}
-                            value={question}
+                            onChange={event => setCardData({...cardData, question: event.target.value })}
+                            value={cardData.question}
                             name="question"
                             type="text"
                             placeholder="Type a Question"
@@ -69,8 +80,8 @@ function Form() {
                     <div className="mt-1 relative rounded-md">
                         <input
                             className="form-input my-2 block w-full sm:text-sm sm:leading-5 p-2 border-2 bg-transparent"
-                            onChange={event => setAnswer(event.target.value)}
-                            value={answer}
+                            onChange={event => setCardData({...cardData, answer: event.target.value })}
+                            value={cardData.answer}
                             name="answer"
                             type="text"
                             placeholder="Type the Answer"
@@ -86,7 +97,7 @@ function Form() {
                             id="category"
                             ref={categoryRef}
                         >
-                            {category.map(cat => {
+                            {cardData.category.map(cat => {
                                 return (
                                     <option  key={cat} value={cat}>{cat}</option>
                                 )
@@ -114,7 +125,7 @@ function Form() {
                 </form>
             </div>
 
-            {category.map(cat => {
+            {cardData.category.map(cat => {
                 return (
                     <button onClick={() => sortByCategory(cat)} key={cat} className='bg-blue-400 px-5 py-2 my-2 mr-5 rounded'>{cat}</button>
                 )
